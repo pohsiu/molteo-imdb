@@ -7,11 +7,19 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import { ACTIONS } from './constants';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
+  },
+  mounted() {
+    this.$store.dispatch(ACTIONS.GET_MOVIES, {
+      params: {
+        language: 'en-US',
+      },
+    });
   },
 };
 </script>
