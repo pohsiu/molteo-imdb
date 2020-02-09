@@ -15,23 +15,23 @@
     >
       <v-card>
         <v-img
-          v-if="currentMovie.poster_path"
-          :src="imgBaseUrl + currentMovie.poster_path"
+          v-if="composeMovie.poster_path"
+          :src="imgBaseUrl + composeMovie.poster_path"
           class="white--text align-end hoverable"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="300px"
           width="400px"
         />
-        <v-card-title class="headline">{{ currentMovie.title }}</v-card-title>
+        <v-card-title class="headline">{{ composeMovie.title }}</v-card-title>
 
         <v-card-text>
-          {{ currentMovie.overview }}
+          {{ composeMovie.overview }}
         </v-card-text>
         <v-card-text>
-          Runtime: {{ formatRuntime(currentMovie.runtime) }}
+          Runtime: {{ formatRuntime(composeMovie.runtime) }}
         </v-card-text>
         <v-card-text>
-          Release Date: {{ formatReleaseDate(currentMovie.release_date) }}
+          Release Date: {{ formatReleaseDate(composeMovie.release_date) }}
         </v-card-text>
 
         <v-card-actions>
@@ -64,11 +64,22 @@ import moment from 'moment';
 
 export default {
   name: 'DetailDialog',
-  props: ['onClick', 'formatReleaseDate', 'imgBaseUrl'],
+  props: ['onClick', 'formatReleaseDate', 'imgBaseUrl', 'movie'],
   data() {
     return {
       dialog: false,
     };
+  },
+  computed: {
+    ...mapState({
+      currentMovie: (state) => state.movie.selectedMovie,
+    }),
+    composeMovie() {
+      return {
+        ...this.movie,
+        ...this.currentMovie,
+      };
+    },
   },
   methods: {
     formatRuntime(minutes) {
@@ -77,8 +88,5 @@ export default {
       return `${hours}h ${lessMinutes}m`;
     },
   },
-  computed: mapState({
-    currentMovie: (state) => state.movie.selectedMovie,
-  }),
 };
 </script>

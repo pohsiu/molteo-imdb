@@ -29,6 +29,7 @@
           <v-img
             v-else
             class="white--text align-end hoverable"
+            :src="'loadfailed'"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
           >
@@ -38,7 +39,7 @@
             </v-card-title>
             <v-card-subtitle
               class="white--text"
-              v-text="movie.release_date">
+              v-text="formatReleaseDate(movie.release_date)">
             </v-card-subtitle>
           </v-img>
           <v-card-actions>
@@ -46,6 +47,7 @@
               v-bind:onClick="() => clickMovie(movie.id)"
               v-bind:formatReleaseDate="formatReleaseDate"
               v-bind:imgBaseUrl="imgBaseUrl"
+              v-bind:movie="movie"
             />
           </v-card-actions>
         </v-card>
