@@ -17,6 +17,7 @@ export default new Vuex.Store({
     movie: {
       discovers: [],
       searchs: [],
+      currentSearch: '',
       selectedMovie: {},
     },
     app: {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
         state.movie.searchs = movies;
       }
     },
+    [MUTATE_ACTIONS.SET_CURRENT_SEARCH](state, data) {
+      state.movie.currentSearch = data.currentSearch;
+    },
     [MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE](state, data) {
       state.movie.selectedMovie = data.movie;
     },
@@ -46,6 +50,9 @@ export default new Vuex.Store({
   actions: {
     async [ACTIONS.GET_MOVIES]({ commit }, data) {
       const { type, params } = data;
+      if (type === GET_TYPES.SEARCH) {
+        commit(MUTATE_ACTIONS.SET_CURRENT_SEARCH, { currentSearch: params.query });
+      }
       try {
         const response = await axios({
           method: 'get',
