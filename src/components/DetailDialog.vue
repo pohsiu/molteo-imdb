@@ -16,7 +16,7 @@
       <v-card>
         <v-img
           v-if="currentMovie.poster_path"
-          :src="'https://image.tmdb.org/t/p/w500/' + currentMovie.poster_path"
+          :src="imgBaseUrl + currentMovie.poster_path"
           class="white--text align-end hoverable"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           height="300px"
@@ -64,7 +64,7 @@ import moment from 'moment';
 
 export default {
   name: 'DetailDialog',
-  props: ['onClick', 'formatReleaseDate'],
+  props: ['onClick', 'formatReleaseDate', 'imgBaseUrl'],
   data() {
     return {
       dialog: false,

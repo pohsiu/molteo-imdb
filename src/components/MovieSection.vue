@@ -11,7 +11,7 @@
         <v-card>
           <v-img
             v-if="movie.poster_path"
-            :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+            :src="imgBaseUrl + movie.poster_path"
             class="white--text align-end hoverable"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             height="200px"
@@ -45,6 +45,7 @@
             <DetailDialog
               v-bind:onClick="() => clickMovie(movie.id)"
               v-bind:formatReleaseDate="formatReleaseDate"
+              v-bind:imgBaseUrl="imgBaseUrl"
             />
           </v-card-actions>
         </v-card>
@@ -64,6 +65,11 @@ export default {
   props: ['title', 'movies'],
   components: {
     DetailDialog,
+  },
+  data() {
+    return {
+      imgBaseUrl: 'https://image.tmdb.org/t/p/w500/',
+    };
   },
   methods: {
     ...mapActions([
