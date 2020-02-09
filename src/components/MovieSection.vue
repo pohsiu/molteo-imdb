@@ -22,7 +22,7 @@
             </v-card-title>
             <v-card-subtitle
               class="white--text"
-              v-text="movie.release_date">
+              v-text="formatReleaseDate(movie.release_date)">
             </v-card-subtitle>
           </v-img>
           <!-- TODO: load default image -->
@@ -42,12 +42,10 @@
             </v-card-subtitle>
           </v-img>
           <v-card-actions>
-            <v-btn
-              text
-              @click="clickMovie(movie.id)"
-            >
-              More Info
-            </v-btn>
+            <DetailDialog
+              v-bind:onClick="() => clickMovie(movie.id)"
+              v-bind:formatReleaseDate="formatReleaseDate"
+            />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -57,11 +55,16 @@
 
 <script>
 import { mapActions } from 'vuex';
+import moment from 'moment';
+import DetailDialog from './DetailDialog.vue';
 import { ACTIONS } from '../constants';
 
 export default {
   name: 'MovieSection',
   props: ['title', 'movies'],
+  components: {
+    DetailDialog,
+  },
   methods: {
     ...mapActions([
       ACTIONS.GET_MOVIE_DETIAL,
@@ -71,6 +74,9 @@ export default {
         movieId: id,
       });
       console.log('click Moive', id);
+    },
+    formatReleaseDate(date) {
+      return moment(date).format('MMM DD, YYYY');
     },
   },
 };
