@@ -45,7 +45,7 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
-import { ACTIONS } from './constants';
+import { ACTIONS, GET_TYPES } from './constants';
 
 export default {
   name: 'App',
@@ -53,14 +53,21 @@ export default {
     HelloWorld,
   },
   data() {
-
+    return {};
   },
   mounted() {
     this.$store.dispatch(ACTIONS.GET_MOVIES, {
+      type: GET_TYPES.SEARCH,
       params: {
-        language: 'en-US',
+        query: 'joke',
       },
     });
+    // this.$store.dispatch(ACTIONS.GET_MOVIE_DETIAL, {
+    //   movieId: '419704',
+    //   params: {
+    //     language: 'en-US',
+    //   },
+    // });
   },
 };
 </script>
