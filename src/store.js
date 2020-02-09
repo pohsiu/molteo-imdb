@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import { ACTIONS, MUTATE_ACTIONS, defaultConfigMap } from './constants';
+import {
+  ACTIONS,
+  MUTATE_ACTIONS,
+  GET_TYPES,
+  defaultConfigMap,
+} from './constants';
 
 Vue.use(Vuex);
 const api = '4b3ad490b310045f6e7bd1cf0f9fd8ff';
@@ -9,8 +14,11 @@ const api = '4b3ad490b310045f6e7bd1cf0f9fd8ff';
 // TODO refactor as two modules
 export default new Vuex.Store({
   state: {
-    movies: [],
-    selectedMovie: {},
+    movie: {
+      discovers: [],
+      searchs: [],
+      selectedMovie: {},
+    },
     app: {
       drawerOpen: true,
     },
@@ -18,10 +26,16 @@ export default new Vuex.Store({
   mutations: {
     // Movie Module
     [MUTATE_ACTIONS.UPDATE_MOVIES](state, data) {
-      state.movies = data.movies;
+      const { type, movies } = data;
+      if (type === GET_TYPES.DISCOVER) {
+        state.movie.discovers = movies;
+      }
+      if (type === GET_TYPES.SEARCH) {
+        state.movie.searchs = movies;
+      }
     },
     [MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE](state, data) {
-      state.selectedMovie = data.movie;
+      state.movie.selectedMovie = data.movie;
     },
     // App Module
     setDrawerOpen(state) {
@@ -42,7 +56,7 @@ export default new Vuex.Store({
             ...params,
           },
         });
-        commit(MUTATE_ACTIONS.UPDATE_MOVIES, { movies: response.data.results });
+        commit(MUTATE_ACTIONS.UPDATE_MOVIES, { type, movies: response.data.results });
       } catch (e) {
         // TODO: Error Handling
         console.log(`${type} Movies Error`, e);
