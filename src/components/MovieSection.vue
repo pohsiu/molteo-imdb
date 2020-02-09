@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <div class="display-2 py-6 pl-4">DISCOVER</div>
+    <div class="display-2 py-6 pl-4">{{ title }}</div>
     <v-row dense>
       <v-col
-        v-bind="discovers"
-        v-for="movie in discovers"
+        v-bind="movies"
+        v-for="movie in movies"
         :key="movie.id"
         :cols="4"
       >
@@ -56,14 +56,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { ACTIONS, GET_TYPES } from '../constants';
+import { mapActions } from 'vuex';
+import { ACTIONS } from '../constants';
 
 export default {
-  name: 'Discover',
-  computed: mapState({
-    discovers: (state) => state.movie.discovers,
-  }),
+  name: 'MovieSection',
+  props: ['title', 'movies'],
   methods: {
     ...mapActions([
       ACTIONS.GET_MOVIE_DETIAL,
@@ -74,11 +72,6 @@ export default {
       });
       console.log('click Moive', id);
     },
-  },
-  mounted() {
-    this.$store.dispatch(ACTIONS.GET_MOVIES, {
-      type: GET_TYPES.DISCOVER,
-    });
   },
 };
 </script>
