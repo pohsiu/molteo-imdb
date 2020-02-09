@@ -6,17 +6,27 @@ import { ACTIONS, MUTATE_ACTIONS, defaultConfigMap } from './constants';
 Vue.use(Vuex);
 const api = '4b3ad490b310045f6e7bd1cf0f9fd8ff';
 
+// TODO refactor as two modules
 export default new Vuex.Store({
   state: {
     movies: [],
     selectedMovie: {},
+    app: {
+      drawerOpen: true,
+    },
   },
   mutations: {
+    // Movie Module
     [MUTATE_ACTIONS.UPDATE_MOVIES](state, data) {
       state.movies = data.movies;
     },
     [MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE](state, data) {
       state.selectedMovie = data.movie;
+    },
+    // App Module
+    setDrawerOpen(state) {
+      const { app: { drawerOpen } } = state;
+      state.app.drawerOpen = !drawerOpen;
     },
   },
   actions: {
