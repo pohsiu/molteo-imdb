@@ -1,4 +1,4 @@
-# molteo-test
+# molteo-imdb
 
 ## Project setup
 ```
