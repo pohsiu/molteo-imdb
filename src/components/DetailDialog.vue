@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     formatRuntime(minutes) {
+      if (!minutes) return 'unknown';
       const hours = moment.duration({ minutes }).hours();
       const lessMinutes = minutes - hours * 60;
       return `${hours}h ${lessMinutes}m`;
