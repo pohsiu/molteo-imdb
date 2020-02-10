@@ -28,14 +28,14 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { GET_TYPES, ACTIONS } from '../constants';
 
 export default {
   name: 'AppBar',
   methods: {
-    ...mapMutations({
-      clickMenuIcon: 'setDrawerOpen',
+    ...mapActions({
+      clickMenuIcon: ACTIONS.ONCHANGE_DRAWER_OPEN,
     }),
     ...mapActions([
       ACTIONS.GET_MOVIES,

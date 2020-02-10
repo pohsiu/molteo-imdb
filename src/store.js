@@ -28,6 +28,7 @@ export default new Vuex.Store({
     app: {
       drawerOpen: true,
       focusNaviPage: 'HOME',
+      focusNaviIndex: 0,
     },
   },
   mutations: {
@@ -57,25 +58,27 @@ export default new Vuex.Store({
     // History Module
     [MUTATE_ACTIONS.UPDATE_SELECTED_HISTORY](state, data) {
       const { selectedMovies } = state.history;
-      state.history.selectedMovies = [...selectedMovies, data.movie.id];
+      state.history.selectedMovies = [data.movie.id, ...selectedMovies];
     },
     [MUTATE_ACTIONS.UPDATE_SEARCH_HISTORY](state, data) {
       const { searchedMovies } = state.history;
-      state.history.searchedMovies = [...searchedMovies, data.currentSearch];
+      state.history.searchedMovies = [data.currentSearch, ...searchedMovies];
     },
     // App Module
-    setDrawerOpen(state) {
+    [MUTATE_ACTIONS.SET_DRAWER_OPEN](state) {
       const { app: { drawerOpen } } = state;
       state.app.drawerOpen = !drawerOpen;
     },
-    onChangeFocusItem(state, data) {
-      state.app.focusNaviPage = data.value;
+    [MUTATE_ACTIONS.SET_FOCUS_ITEM](state, data) {
+      state.app.focusNaviPage = data.text;
+      state.app.focusNaviIndex = data.index;
     },
   },
   actions: {
     async [ACTIONS.GET_MOVIES]({ commit }, data) {
       const { type, params } = data;
       if (type === GET_TYPES.SEARCH) {
+        commit(MUTATE_ACTIONS.SET_FOCUS_ITEM, { text: 'HOME', index: 0 });
         commit(MUTATE_ACTIONS.SET_CURRENT_SEARCH, { currentSearch: params.query });
         commit(MUTATE_ACTIONS.UPDATE_SEARCH_HISTORY, { currentSearch: params.query });
       }
@@ -104,6 +107,7 @@ export default new Vuex.Store({
           params: {
             api_key: api,
             language: 'en-US',
+            append_to_response: 'credits', // get cast/creat
             ...params,
           },
         });
@@ -115,6 +119,12 @@ export default new Vuex.Store({
         console.log('fecth Movie Detail Error', e);
       }
     },
+    [ACTIONS.ONCHANGE_FOCUS_ITEM]({ commit }, data) {
+      commit(MUTATE_ACTIONS.SET_FOCUS_ITEM, data);
+    },
+    [ACTIONS.ONCHANGE_DRAWER_OPEN]({ commit }, data) {
+      commit(MUTATE_ACTIONS.SET_DRAWER_OPEN, data);
+    },
   },
   getters: {
     // Movie Getter
@@ -122,8 +132,12 @@ export default new Vuex.Store({
     [Selectors.selectSearchs]: (state) => state.movie.searchs,
     [Selectors.selectCurrentSearch]: (state) => state.movie.currentSearch,
     [Selectors.selectIdMap]: (state) => state.movie.idMap,
+    // History Getter
+    [Selectors.selectSearchedRecords]: (state) => state.history.searchedMovies,
+    [Selectors.selectSelectedRecords]: (state) => state.history.selectedMovies,
     // App Getter
     [Selectors.selectFocusNaviPage]: (state) => state.app.focusNaviPage,
+    [Selectors.selectFocusNaviIndex]: (state) => state.app.focusNaviIndex,
     [Selectors.selectDrawerOpen]: (state) => state.app.drawerOpen,
   },
 });

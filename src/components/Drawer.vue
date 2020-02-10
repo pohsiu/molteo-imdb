@@ -5,11 +5,11 @@
     clipped
   >
     <v-list dense>
-      <v-list-item-group mandatory>
+      <v-list-item-group mandatory :value="focusIndex">
         <v-list-item
-          v-for="item in items"
+          v-for="(item, index) in items"
           :key="item.text"
-          @click="() => onChangeFocusItem({ value: item.text })"
+          @click="() => setFocusItem({ text: item.text, index })"
           link
         >
           <v-list-item-action>
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import { Selectors } from '../constants';
+import { mapGetters, mapActions } from 'vuex';
+import { Selectors, ACTIONS } from '../constants';
 
 export default {
   name: 'Drawer',
@@ -40,7 +40,10 @@ export default {
   }),
   computed: mapGetters({
     drawerOpen: Selectors.selectDrawerOpen,
+    focusIndex: Selectors.selectFocusNaviIndex,
   }),
-  methods: mapMutations(['onChangeFocusItem']),
+  methods: mapActions({
+    setFocusItem: ACTIONS.ONCHANGE_FOCUS_ITEM,
+  }),
 };
 </script>
