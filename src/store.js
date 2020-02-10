@@ -6,6 +6,7 @@ import {
   MUTATE_ACTIONS,
   GET_TYPES,
   defaultConfigMap,
+  Selectors,
 } from './constants';
 
 Vue.use(Vuex);
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     },
     app: {
       drawerOpen: true,
+      focusNaviPage: 'HOME',
     },
   },
   mutations: {
@@ -65,6 +67,9 @@ export default new Vuex.Store({
     setDrawerOpen(state) {
       const { app: { drawerOpen } } = state;
       state.app.drawerOpen = !drawerOpen;
+    },
+    onChangeFocusItem(state, data) {
+      state.app.focusNaviPage = data.value;
     },
   },
   actions: {
@@ -112,5 +117,13 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    // Movie Getter
+    [Selectors.selectDiscovers]: (state) => state.movie.discovers,
+    [Selectors.selectSearchs]: (state) => state.movie.searchs,
+    [Selectors.selectCurrentSearch]: (state) => state.movie.currentSearch,
+    [Selectors.selectIdMap]: (state) => state.movie.idMap,
+    // App Getter
+    [Selectors.selectFocusNaviPage]: (state) => state.app.focusNaviPage,
+    [Selectors.selectDrawerOpen]: (state) => state.app.drawerOpen,
   },
 });
