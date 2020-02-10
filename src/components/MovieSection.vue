@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import moment from 'moment';
 import DetailDialog from './DetailDialog.vue';
-import { ACTIONS } from '../constants';
+import { ACTIONS, Selectors } from '../constants';
 
 export default {
   name: 'MovieSection',
@@ -73,8 +73,8 @@ export default {
       imgBaseUrl: 'https://image.tmdb.org/t/p/w500/',
     };
   },
-  computed: mapState({
-    movieIdMap: (state) => state.movie.idMap,
+  computed: mapGetters({
+    movieIdMap: Selectors.selectIdMap,
   }),
   methods: {
     ...mapActions([
