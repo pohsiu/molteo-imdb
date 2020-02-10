@@ -47,7 +47,7 @@
               v-bind:onClick="() => clickMovie(movie.id)"
               v-bind:formatReleaseDate="formatReleaseDate"
               v-bind:imgBaseUrl="imgBaseUrl"
-              v-bind:movie="movie"
+              v-bind:movie="movieIdMap[movie.id]"
             />
           </v-card-actions>
         </v-card>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import moment from 'moment';
 import DetailDialog from './DetailDialog.vue';
 import { ACTIONS } from '../constants';
@@ -73,6 +73,9 @@ export default {
       imgBaseUrl: 'https://image.tmdb.org/t/p/w500/',
     };
   },
+  computed: mapState({
+    movieIdMap: (state) => state.movie.idMap,
+  }),
   methods: {
     ...mapActions([
       ACTIONS.GET_MOVIE_DETIAL,
@@ -84,6 +87,7 @@ export default {
       console.log('click Moive', id);
     },
     formatReleaseDate(date) {
+      if (!date) return 'unknown';
       return moment(date).format('MMM DD, YYYY');
     },
   },
