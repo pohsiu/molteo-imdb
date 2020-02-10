@@ -5,10 +5,11 @@
     clipped
   >
     <v-list dense>
-      <v-list-item-group v-model="focusItem" mandatory>
+      <v-list-item-group mandatory>
         <v-list-item
           v-for="item in items"
           :key="item.text"
+          @click="() => onChangeFocusItem({ value: item.text })"
           link
         >
           <v-list-item-action>
@@ -26,19 +27,20 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
+import { Selectors } from '../constants';
 
 export default {
   name: 'Drawer',
   data: () => ({
     items: [
-      { icon: 'home', text: 'Home' },
-      { icon: 'history', text: 'History' },
+      { icon: 'home', text: 'HOME' },
+      { icon: 'history', text: 'HISTORY' },
     ],
-    focusItem: 0,
   }),
-  computed: mapState({
-    drawerOpen: (state) => state.app.drawerOpen,
+  computed: mapGetters({
+    drawerOpen: Selectors.selectDrawerOpen,
   }),
+  methods: mapMutations(['onChangeFocusItem']),
 };
 </script>
