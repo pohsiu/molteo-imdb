@@ -31,3 +31,12 @@ export const defaultConfigMap = {
     page: 1,
   },
 };
+
+export const Selectors = {
+  selectDiscovers: 'selectDiscovers',
+  selectSearchs: 'selectSearchs',
+  selectCurrentSearch: 'selectCurrentSearch',
+  selectIdMap: 'selectIdMap',
+  selectFocusNaviPage: 'selectFocusNaviPage',
+  selectDrawerOpen: 'selectDrawerOpen',
+};
