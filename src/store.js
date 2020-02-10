@@ -15,10 +15,14 @@ const api = '4b3ad490b310045f6e7bd1cf0f9fd8ff';
 export default new Vuex.Store({
   state: {
     movie: {
+      idMap: {},
       discovers: [],
       searchs: [],
       currentSearch: '',
-      selectedMovie: {},
+    },
+    history: {
+      selectedMovies: [], // MovieId[]
+      searchedMovies: [], // SearchString[]
     },
     app: {
       drawerOpen: true,
@@ -28,6 +32,10 @@ export default new Vuex.Store({
     // Movie Module
     [MUTATE_ACTIONS.UPDATE_MOVIES](state, data) {
       const { type, movies } = data;
+      movies.map((movie) => {
+        state.movie.idMap[movie.id] = movie;
+        return null;
+      });
       if (type === GET_TYPES.DISCOVER) {
         state.movie.discovers = movies;
       }
@@ -39,7 +47,19 @@ export default new Vuex.Store({
       state.movie.currentSearch = data.currentSearch;
     },
     [MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE](state, data) {
-      state.movie.selectedMovie = data.movie;
+      const { movie } = data;
+      const { idMap } = state.movie;
+      idMap[movie.id] = movie;
+      state.movie.idMap = { ...idMap };
+    },
+    // History Module
+    [MUTATE_ACTIONS.UPDATE_SELECTED_HISTORY](state, data) {
+      const { selectedMovies } = state.history;
+      state.history.selectedMovies = [...selectedMovies, data.movie.id];
+    },
+    [MUTATE_ACTIONS.UPDATE_SEARCH_HISTORY](state, data) {
+      const { searchedMovies } = state.history;
+      state.history.searchedMovies = [...searchedMovies, data.currentSearch];
     },
     // App Module
     setDrawerOpen(state) {
@@ -52,6 +72,7 @@ export default new Vuex.Store({
       const { type, params } = data;
       if (type === GET_TYPES.SEARCH) {
         commit(MUTATE_ACTIONS.SET_CURRENT_SEARCH, { currentSearch: params.query });
+        commit(MUTATE_ACTIONS.UPDATE_SEARCH_HISTORY, { currentSearch: params.query });
       }
       try {
         const response = await axios({
@@ -83,6 +104,7 @@ export default new Vuex.Store({
         });
         console.log('Get Movie Detail', response.data);
         commit(MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE, { movie: response.data });
+        commit(MUTATE_ACTIONS.UPDATE_SELECTED_HISTORY, { movie: response.data });
       } catch (e) {
         // TODO: Error Handling
         console.log('fecth Movie Detail Error', e);
