@@ -3,7 +3,8 @@
 
 ### TODO
 [ ] Detail Content
-[ ] View History
+[v] Make v-card a reuseable
+[v] View History
 [ ] Check Weird Websocket request
 [ ] Change Search Hisotry As Autocomplete -> https://github.com/vuetifyjs/vuetify/tree/master/packages/docs/src/examples/autocompletes/intermediate
 
