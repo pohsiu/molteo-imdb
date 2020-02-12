@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
     [MUTATE_ACTIONS.UPDATE_SEARCH_HISTORY](state, data) {
       const { searchedMovies } = state.history;
-      state.history.searchedMovies = [data.currentSearch, ...searchedMovies];
+      state.history.searchedMovies = new Set([data.currentSearch, ...searchedMovies]);
     },
     // App Module
     [MUTATE_ACTIONS.SET_DRAWER_OPEN](state) {
