@@ -6,7 +6,8 @@
         v-bind="movies"
         v-for="movie in movies"
         :key="movie.id"
-        :cols="4"
+        :cols="12"
+        :sm="4"
       >
         <MovieCard
           v-bind:movie="movieIdMap[movie.id]"
