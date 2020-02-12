@@ -2,7 +2,7 @@
   <v-app-bar
     app
     clipped-left
-    color="red"
+    color="primary"
     dense
   >
     <v-app-bar-nav-icon @click.stop="clickMenuIcon" />
