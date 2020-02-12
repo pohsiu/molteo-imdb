@@ -1,6 +1,8 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card :class="{ 'on-hover': hover }">
+    <v-card
+      @click="() => { clickMovie(movie.id); dialogOpen = true; }"
+      :class="{ 'on-hover': hover }">
       <v-img
         v-if="movie.poster_path"
         :src="imgBaseUrl + movie.poster_path"
@@ -36,7 +38,8 @@
       </v-img>
       <v-card-actions>
         <DetailDialog
-          v-bind:onClick="() => clickMovie(movie.id)"
+          v-bind:onChangeDialog="(key) => { dialogOpen = key }"
+          v-bind:dialog="dialogOpen"
           v-bind:formatReleaseDate="formatReleaseDate"
           v-bind:imgBaseUrl="imgBaseUrl"
           v-bind:movie="movie"
@@ -61,6 +64,7 @@ export default {
   data() {
     return {
       imgBaseUrl: 'https://image.tmdb.org/t/p/w500/',
+      dialogOpen: false,
     };
   },
   methods: {

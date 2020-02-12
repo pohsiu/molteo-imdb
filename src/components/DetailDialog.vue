@@ -3,14 +3,13 @@
     <v-btn
       color="primary"
       dark
-      @click="onClick"
-      @click.stop="dialog = true"
     >
       More Info
     </v-btn>
 
     <v-dialog
-      v-model="dialog"
+      :value="dialog"
+      @click:outside="() => onChangeDialog(false)"
       max-width="400"
     >
       <v-card>
@@ -43,12 +42,7 @@ import moment from 'moment';
 
 export default {
   name: 'DetailDialog',
-  props: ['onClick', 'formatReleaseDate', 'imgBaseUrl', 'movie'],
-  data() {
-    return {
-      dialog: false,
-    };
-  },
+  props: ['formatReleaseDate', 'imgBaseUrl', 'movie', 'dialog', 'onChangeDialog'],
   methods: {
     formatRuntime(minutes) {
       if (!minutes) return 'unknown';
