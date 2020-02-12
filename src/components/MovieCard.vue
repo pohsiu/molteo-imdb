@@ -1,47 +1,49 @@
 <template>
-  <v-card>
-    <v-img
-      v-if="movie.poster_path"
-      :src="imgBaseUrl + movie.poster_path"
-      class="white--text align-end hoverable"
-      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-      height="200px"
-    >
-      <v-card-title
-        class="headline mb-1"
-        v-text="movie.original_title">
-      </v-card-title>
-      <v-card-subtitle
-        class="white--text"
-        v-text="formatReleaseDate(movie.release_date)">
-      </v-card-subtitle>
-    </v-img>
-    <!-- TODO: load default image -->
-    <v-img
-      v-else
-      class="white--text align-end hoverable"
-      :src="'loadfailed'"
-      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-      height="200px"
-    >
-      <v-card-title
-        class="headline mb-1"
-        v-text="movie.original_title">
-      </v-card-title>
-      <v-card-subtitle
-        class="white--text"
-        v-text="formatReleaseDate(movie.release_date)">
-      </v-card-subtitle>
-    </v-img>
-    <v-card-actions>
-      <DetailDialog
-        v-bind:onClick="() => clickMovie(movie.id)"
-        v-bind:formatReleaseDate="formatReleaseDate"
-        v-bind:imgBaseUrl="imgBaseUrl"
-        v-bind:movie="movie"
-      />
-    </v-card-actions>
-  </v-card>
+  <v-hover v-slot:default="{ hover }">
+    <v-card :class="{ 'on-hover': hover }">
+      <v-img
+        v-if="movie.poster_path"
+        :src="imgBaseUrl + movie.poster_path"
+        class="white--text align-end hoverable"
+        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+        height="200px"
+      >
+        <v-card-title
+          class="headline mb-1"
+          v-text="movie.original_title">
+        </v-card-title>
+        <v-card-subtitle
+          class="white--text"
+          v-text="formatReleaseDate(movie.release_date)">
+        </v-card-subtitle>
+      </v-img>
+      <!-- TODO: load default image -->
+      <v-img
+        v-else
+        class="white--text align-end hoverable"
+        :src="'loadfailed'"
+        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+        height="200px"
+      >
+        <v-card-title
+          class="headline mb-1"
+          v-text="movie.original_title">
+        </v-card-title>
+        <v-card-subtitle
+          class="white--text"
+          v-text="formatReleaseDate(movie.release_date)">
+        </v-card-subtitle>
+      </v-img>
+      <v-card-actions>
+        <DetailDialog
+          v-bind:onClick="() => clickMovie(movie.id)"
+          v-bind:formatReleaseDate="formatReleaseDate"
+          v-bind:imgBaseUrl="imgBaseUrl"
+          v-bind:movie="movie"
+        />
+      </v-card-actions>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -79,3 +81,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-card {
+  transition: opacity .3s ease-in-out;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.v-card:not(.on-hover) {
+  opacity: 1;
+ }
+</style>
