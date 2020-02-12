@@ -6,7 +6,6 @@
       <v-sheet
         id="scrolling-techniques-7"
         class="overflow-y-auto"
-        max-height="600"
       >
         <!-- TODO: might compose router feature -->
         <div v-if="focusNaviPage === 'HOME'">
