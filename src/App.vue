@@ -16,10 +16,10 @@
           />
           <MovieSection title="DISCOVER" v-bind:movies="discovers" />
         </div>
-        <div v-if="focusNaviPage === 'HISTORY'">
-          <SearchHistroy v-bind:records="searchMvRecords" />
-          <div class="display-2 py-6 pl-4">View History: </div>
-        </div>
+        <v-container fluid v-if="focusNaviPage === 'HISTORY'" style="height: 100vh;">
+          <SearchHistroy v-bind:records="searchedMvRecords" />
+          <ViewHistory v-bind:records="selectedMvRecords" />
+        </v-container>
       </v-sheet>
     </v-content>
   </v-app>
@@ -31,6 +31,7 @@ import Drawer from './components/Drawer.vue';
 import AppBar from './components/AppBar.vue';
 import MovieSection from './components/MovieSection.vue';
 import SearchHistroy from './components/history/SearchHistory.vue';
+import ViewHistory from './components/history/ViewHistory.vue';
 import { ACTIONS, GET_TYPES, Selectors } from './constants';
 
 export default {
@@ -40,13 +41,15 @@ export default {
     AppBar,
     MovieSection,
     SearchHistroy,
+    ViewHistory,
   },
   computed: mapGetters({
     discovers: Selectors.selectDiscovers,
     searchs: Selectors.selectSearchs,
     currentSearch: Selectors.selectCurrentSearch,
     focusNaviPage: Selectors.selectFocusNaviPage,
-    searchMvRecords: Selectors.selectSearchedRecords,
+    searchedMvRecords: Selectors.selectSearchedRecords,
+    selectedMvRecords: Selectors.selectSelectedRecords,
   }),
   mounted() {
     this.$store.dispatch(ACTIONS.GET_MOVIES, {
