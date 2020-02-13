@@ -10,7 +10,6 @@
         <!-- TODO: might compose router feature -->
         <div v-if="focusNaviPage === 'HOME'">
           <MovieSection
-            v-if="searchs.length > 0"
             v-bind:title="'Search Results: '+currentSearch"
             v-bind:movies="searchs"
           />

@@ -14,25 +14,32 @@
       align="center"
       style="max-width: 650px"
     >
-      <v-text-field
-        @click:append="onSearch"
-        @keydown="onKeydownInput"
-        placeholder="Search..."
-        single-line
-        append-icon="search"
-        color="white"
-        hide-details
-      />
+      <v-card-text style="height: 60px;">
+        <v-autocomplete
+          ref="autocomplete"
+          @keydown="onKeydownInput"
+          :items="Array.from(records)"
+          color="white"
+          hide-no-data
+          hide-selected
+          placeholder="Start typing to Search"
+          prepend-icon="search"
+          return-object
+        ></v-autocomplete>
+      </v-card-text>
     </v-row>
   </v-app-bar>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { GET_TYPES, ACTIONS } from '../constants';
+import { mapActions, mapGetters } from 'vuex';
+import { GET_TYPES, ACTIONS, Selectors } from '../constants';
 
 export default {
   name: 'AppBar',
+  computed: mapGetters({
+    records: Selectors.selectSearchedRecords,
+  }),
   methods: {
     ...mapActions({
       clickMenuIcon: ACTIONS.ONCHANGE_DRAWER_OPEN,
@@ -40,18 +47,15 @@ export default {
     ...mapActions([
       ACTIONS.GET_MOVIES,
     ]),
-    onSearch() {
-      this[ACTIONS.GET_MOVIES]({
-        params: {
-          query: this.searchValue,
-        },
-        type: GET_TYPES.SEARCH,
-      });
-    },
     onKeydownInput(event) {
-      this.searchValue = event.target.value;
       if (event.target.value && event.keyCode === 13) {
-        this.onSearch();
+        this.$refs.autocomplete.isMenuActive = false;
+        this[ACTIONS.GET_MOVIES]({
+          params: {
+            query: event.target.value,
+          },
+          type: GET_TYPES.SEARCH,
+        });
       }
     },
   },
