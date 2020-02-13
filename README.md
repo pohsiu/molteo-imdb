@@ -6,7 +6,7 @@
 [v] Make v-card a reuseable
 [v] View History
 [v] Make hover card click functional
-[ ] Check Weird Websocket request
+[v] Check Weird Websocket request
 [ ] Change Search Hisotry As Autocomplete -> https://github.com/vuetifyjs/vuetify/tree/master/packages/docs/src/examples/autocompletes/intermediate
 
 ### Customize configuration

@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card
-      @click="() => { clickMovie(movie.id); dialogOpen = true; }"
+      @click="() => clickMovieCard(movie.id)"
       :class="{ 'on-hover': hover }">
       <v-img
         v-if="movie.poster_path"
@@ -71,12 +71,12 @@ export default {
     ...mapActions([
       ACTIONS.GET_MOVIE_DETIAL,
     ]),
-    clickMovie(id) {
+    clickMovieCard(id) {
+      this.dialogOpen = true;
       if (!this.updateMovie) return; // sometime no need update
       this[ACTIONS.GET_MOVIE_DETIAL]({
         movieId: id,
       });
-      console.log('click Moive', id);
     },
     formatReleaseDate(date) {
       if (!date) return 'unknown';

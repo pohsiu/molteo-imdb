@@ -111,7 +111,6 @@ export default new Vuex.Store({
             ...params,
           },
         });
-        console.log('Get Movie Detail', response.data);
         commit(MUTATE_ACTIONS.UPDATE_SELECTED_MOVIE, { movie: response.data });
         commit(MUTATE_ACTIONS.UPDATE_SELECTED_HISTORY, { movie: response.data });
       } catch (e) {
