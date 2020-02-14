@@ -50,6 +50,7 @@ export default {
     onKeydownInput(event) {
       if (event.target.value && event.keyCode === 13) {
         this.$refs.autocomplete.isMenuActive = false;
+        // TODO: not work properly, check render lifecycle
         this[ACTIONS.GET_MOVIES]({
           params: {
             query: event.target.value,

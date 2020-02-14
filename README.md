@@ -2,7 +2,7 @@
 
 
 ### TODO
-[ ] Detail Content
+[ ] Detail Content, More content of each Movie
 [v] Make v-card a reuseable
 [v] View History
 [v] Make hover card click functional
